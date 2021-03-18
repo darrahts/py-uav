@@ -131,7 +131,7 @@ def three_plot(title="title", figsize=(12, 4),
         f.savefig(filename)
 
 
-def load_checkpoint(parent_directory="models/", battery_name="base", checkpoint=""):
+def load_checkpoint(parent_directory="checkpoints/", battery_name="base", checkpoint=""):
     """
     @brief: returns a dictionary of the latest battery checkpoint
 
@@ -401,14 +401,12 @@ class ContinuousBatteryCell(Battery, gym.Env):
                     print("overcharged!")
                     self.z = 1.0
 
-    def save_checkpoint(self, parent_directory="models/", filename=""):
+    def save_checkpoint(self, parent_directory="checkpoints/", filename=""):
         params = self.__dict__
         params.pop('filter', None)
         params.pop('observation_space', None)
         params.pop('action_space', None)
         params.pop('nsteps', None)
-        # params['accum_z'] = params['accum_z'].tolist()
-        # params['accum_v'] = params['accum_v'].tolist()
         params['modified'] = datetime.datetime.now().strftime("%d%b%y_%H-%M-%S")
         if (len(filename) < 1):
             if not os.path.exists(str(os.path.abspath(os.getcwd())+f"\\{parent_directory}\\{self.name}")):
